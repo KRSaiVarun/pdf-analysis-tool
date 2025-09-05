@@ -46,7 +46,6 @@ With initial use cases in medical reports and general PDF analysis, the framewor
 
 ## 📦 Installation & Requirements
 
-### Option 1: Local LLM (Recommended - Free)
 ```bash
 # Install Ollama for local AI processing
 # Download from: https://ollama.ai/
@@ -121,10 +120,11 @@ medical - Medical report analysis
 invoice - Financial document analysis
 
 research - Academic paper analysis
+```
 
 📊  Output
 Medical Report Analysis Output
-
+```
 ============================================================
 PDF ANALYSIS REPORT (MEDICAL ANALYSIS)
 ============================================================
@@ -203,8 +203,9 @@ by a qualified healthcare provider.
 
 Model: Medical Analysis Expert
 Text Processed: ~15,000 characters
-Report Pages: 10
+```
 🚀 Key Features
+```
 Dual AI Backend: Support for both local LLMs (Ollama) and cloud APIs (DeepSeek)
 
 Modular Architecture: Agent-task-tool design for easy extensibility
