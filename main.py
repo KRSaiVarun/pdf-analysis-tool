@@ -1,6 +1,3 @@
-from tools import PDFProcessor, TextCleaner
-from agents import AnalysisAgent
-from task import TaskManager
 #!/usr/bin/env python3
 """
 PDF Analysis CLI Tool
@@ -12,7 +9,6 @@ import json
 import sys
 from pathlib import Path
 
-# Fixed: Absolute imports without dots
 from tools import PDFProcessor, TextCleaner
 from agents import AnalysisAgent
 from task import TaskManager
@@ -124,8 +120,12 @@ def main():
 
 def format_text_output(analysis_result):
     """Format analysis result as human-readable text."""
+    # Special formatting for medical reports
+    if analysis_result.get("analysis_type") == "medical":
+        return format_medical_output(analysis_result)
+
+    # Default formatting for other report types
     output_lines = []
-    
     output_lines.append("=" * 60)
     output_lines.append("PDF ANALYSIS REPORT")
     output_lines.append("=" * 60)
@@ -138,37 +138,77 @@ def format_text_output(analysis_result):
     if "summary" in analysis_result:
         output_lines.append("SUMMARY:")
         output_lines.append("-" * 40)
-        output_lines.append(analysis_result['summary'])
+        output_lines.append(analysis_result["summary"])
         output_lines.append("")
     
     if "key_insights" in analysis_result:
         output_lines.append("KEY INSIGHTS:")
         output_lines.append("-" * 40)
-        for i, insight in enumerate(analysis_result['key_insights'], 1):
+        for i, insight in enumerate(analysis_result["key_insights"], 1):
             output_lines.append(f"{i}. {insight}")
         output_lines.append("")
     
-    if "structured_data" in analysis_result:
-        output_lines.append("STRUCTURED DATA:")
-        output_lines.append("-" * 40)
-        for key, value in analysis_result['structured_data'].items():
-            output_lines.append(f"{key.title()}: {value}")
-        output_lines.append("")
-    
-    if "recommendations" in analysis_result:
-        output_lines.append("RECOMMENDATIONS:")
-        output_lines.append("-" * 40)
-        for i, rec in enumerate(analysis_result['recommendations'], 1):
-            output_lines.append(f"{i}. {rec}")
-        output_lines.append("")
-    
-    if "confidence_score" in analysis_result:
-        output_lines.append(f"Analysis Confidence: {analysis_result['confidence_score']:.2f}/1.00")
-        output_lines.append("")
-    
-    output_lines.append("=" * 60)
-    
     return "\n".join(output_lines)
+
+
+def format_medical_output(analysis_result):
+    """Format medical analysis into the detailed report style."""
+    lines = []
+    lines.append("=" * 60)
+    lines.append("PDF ANALYSIS REPORT (MEDICAL ANALYSIS)")
+    lines.append("=" * 60)
+    
+    # Document Type
+    lines.append("Document Type: Medical Laboratory Report - Comprehensive Health Checkup")
+    lines.append("")
+    
+    # Summary Section
+    if "summary" in analysis_result:
+        lines.append("SUMMARY:")
+        lines.append("-" * 40)
+        lines.append(analysis_result["summary"])
+        lines.append("")
+    
+    # Key Insights/Interpretations
+    if "interpretations" in analysis_result and analysis_result["interpretations"]:
+        lines.append("KEY INSIGHTS:")
+        lines.append("-" * 40)
+        for i, insight in enumerate(analysis_result["interpretations"], 1):
+            lines.append(f"{i}. {insight}")
+        lines.append("")
+    
+    # Critical Findings
+    if "critical_findings" in analysis_result and analysis_result["critical_findings"]:
+        lines.append("CRITICAL FINDINGS:")
+        lines.append("-" * 40)
+        for i, finding in enumerate(analysis_result["critical_findings"], 1):
+            lines.append(f"{i}. {finding}")
+        lines.append("")
+    
+    # Recommendations
+    if "recommendations" in analysis_result and analysis_result["recommendations"]:
+        lines.append("RECOMMENDATIONS:")
+        lines.append("-" * 40)
+        for i, recommendation in enumerate(analysis_result["recommendations"], 1):
+            lines.append(f"{i}. {recommendation}")
+        lines.append("")
+    
+    # Patient Details
+    if "patient_details" in analysis_result and analysis_result["patient_details"]:
+        lines.append("PATIENT DETAILS:")
+        lines.append("-" * 40)
+        for key, value in analysis_result["patient_details"].items():
+            lines.append(f"- {key.replace('_', ' ').title()}: {value}")
+        lines.append("")
+    
+    # Disclaimer
+    if "disclaimer" in analysis_result:
+        lines.append("DISCLAIMER:")
+        lines.append("-" * 40)
+        lines.append(analysis_result["disclaimer"])
+        lines.append("")
+    
+    return "\n".join(lines)
 
 
 if __name__ == "__main__":

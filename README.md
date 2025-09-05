@@ -1,167 +1,387 @@
-# PDF Analysis CLI Tool
+# 📑 Pdf-Analysis-Tool: An AI-Powered Framework for Automated Report Analysis and Summarization
 
-## 📖 Overview
-This is a modular Python CLI application that extracts text from PDF documents and provides AI-powered analysis using OpenAI's GPT models. The tool supports multiple analysis types including medical reports, invoices, research papers, and general document analysis. It features a clean architecture with separation of concerns across different modules for PDF processing, text cleaning, AI analysis, and task management.
+## 📖 Abstract
+
+Pdf-Analysis-Tool (ReportSage) is a Python-based project designed to analyze, process, and summarize structured and unstructured reports, with a focus on medical and professional documents such as blood test reports, invoices, research papers, and PDFs.
+
+The framework introduces a modular agent-task-tool architecture, enabling efficient report interpretation, summarization, and insight generation. By separating logic into agents, reusable task definitions, and utility tools, the system ensures scalability, flexibility, and extensibility across domains such as healthcare, finance, and education.
+
+It takes report documents as input, applies task-driven agent pipelines for parsing and interpretation, and generates structured summaries highlighting key insights. With its clean architecture and support for both cloud APIs and local LLMs, ReportSage demonstrates a strong foundation for future intelligent reporting systems.
+
+---
+
+## 🌟 Introduction
+
+Reports play a critical role across industries such as healthcare, finance, education, and business intelligence. Manual report analysis is time-consuming and error-prone.
+
+ReportSage addresses this challenge by providing an AI-powered framework that automatically extracts, interprets, and summarizes reports in PDF format. Built on modular principles, the framework divides logic into agents, tasks, and tools for maintainability and extensibility.
+
+With initial use cases in medical reports and general PDF analysis, the framework can be easily extended to finance, education, and enterprise reporting. The system now supports both cloud-based AI services (DeepSeek) and local LLMs (Ollama) for flexible deployment.
+
+---
 
 ## 🏗️ System Architecture
 ### Core Components
-- **main.py:** Entry point and CLI handler
-- **tools.py:** PDF processing and text utilities
-- **agents.py:** AI analysis logic
-- **task.py:** Analysis task configurations
-
-### PDF Processing Layer
-- Uses pdfplumber for robust text extraction
-- Includes validation, error handling, and page-wise text cleanup
-
-### AI Analysis Engine
-- Uses OpenAI GPT-5 (configurable in agents.py)
-- AnalysisAgent manages prompt engineering and response formatting
-
-### Task Management System
-- Flexible configuration for different analysis types: general, summary, medical, invoice, research
-
-### Text Processing Pipeline
-- Handles Unicode normalization, whitespace cleanup, and formatting before analysis
-
-### CLI Interface
-- Built with argparse, supports task type selection, JSON/text output, verbose/debug mode, file output option
+- main.py – Entry point and CLI handler, orchestrates workflows.
+- agents.py – AI logic (text extraction, summarization, interpretation).
+- task.py – Defines analysis task configurations and management.
+- tools.py – Utilities for PDF parsing, text cleaning, and helper functions.
+- data/ – Sample reports (e.g., blood_test_report.pdf, sample.pdf).
+- pyproject.toml / requirements.txt – Dependencies and project configuration.
 
 ### Design Patterns
-- **Factory Pattern:** TaskManager creates different analysis tasks
-- **Strategy Pattern:** Different task strategies for the same AI agent
-- **Error Handling:** Graceful handling of import/runtime/PDF issues
+- Factory Pattern – TaskManager creates analysis tasks.
+- Strategy Pattern – Different strategies for agents per task type.
+- Error Handling – Robust handling of PDF parsing and runtime issues.
+- Fallback Mechanism – Graceful degradation when AI services are unavailable.
 
-## 📦 Installation
-### Prerequisites
-- Python 3.8+
-- OpenAI API account
+### Processing Layers
+- PDF Processing – Powered by pdfplumber with error handling and page-wise cleanup.
+- AI Analysis Engine – Supports both cloud APIs (DeepSeek) and local LLMs (Ollama).
+- Task Management – Supports different analysis pipelines (medical, invoice, research, etc.).
+- Text Pipeline – Normalization, whitespace cleanup, and formatting.
+- CLI Interface – Built with argparse, supports JSON/text outputs, verbose mode, and task selection.
 
-### Clone the Repository
+---
+
+## 📦 Installation & Requirements
+
+### Option 1: Local LLM (Recommended - Free)
 ```sh
-git clone https://github.com/KRSaiVarun/pdf-analysis-tool.git
-cd pdf-analysis-tool
-```
+# Install Ollama for local AI processing
+# Download from: https://ollama.ai/
+# Then pull a model:
+ollama pull llama2
 
-### Install Dependencies
-```sh
+# Install Python dependencies
 pip install -r requirements.txt
-```
+Option 2: Cloud API (DeepSeek)
+sh
+# Install Python dependencies
+pip install -r requirements.txt
 
-### Environment Setup
-Create a `.env` file in the project root:
-```
-OPENAI_API_KEY=your_openai_api_key_here
-```
-Or export directly:
-- Linux/Mac: `export OPENAI_API_KEY=your_openai_api_key_here`
-- Windows: `set OPENAI_API_KEY=your_openai_api_key_here`
+# Set API key
+export DEEPSEEK_API_KEY=your_deepseek_api_key_here
+# or on Windows:
+set DEEPSEEK_API_KEY=your_deepseek_api_key_here
+Prerequisites
+Python 3.8+
 
-## 📋 Requirements
-- pdfplumber>=0.11.7
-- openai>=1.102.0
-- python-dotenv>=1.0.0
-- fastapi>=0.115.0
-- uvicorn>=0.30.0
-- crewai>=0.28.8
-- crewai-tools>=0.0.15
-- langchain-community>=0.0.36
+For local AI: Ollama installed and running
 
-## 📝 Usage
-### Basic
-```sh
+For cloud AI: DeepSeek API account & key
+
+Setup
+sh
+git clone https://github.com/KRSaiVarun/pdf-analysis-tool
+cd pdf-analysis-tool
+pip install -r requirements.txt
+📋 Requirements
+pdfplumber>=0.11.7
+
+requests>=2.31.0
+
+python-dotenv>=1.0.0
+
+📝 Usage
+Basic Usage
+sh
+# Analyze with default settings
 python main.py document.pdf
-```
-### Advanced
-```sh
+
+# Use local Ollama (default)
 python main.py document.pdf --task medical
+
+# Force cloud API (if available)
+python main.py document.pdf --use-cloud
+Advanced Options
+sh
+# Specific task analysis
+python main.py document.pdf --task medical
+python main.py document.pdf --task invoice
+python main.py document.pdf --task research
+
+# Output formats
 python main.py document.pdf --format json --output analysis.json
+python main.py document.pdf --format text
+
+# Verbose mode for debugging
 python main.py document.pdf --verbose
-```
-### Available Tasks
-- general (default)
-- summary
-- medical
-- invoice
-- research
 
-## 📊 Output Examples
+# Force cloud API usage
+python main.py document.pdf --use-cloud
+Available Tasks
+general (default) - General document analysis
 
-```
+summary - Focused summarization
+
+medical - Medical report analysis
+
+invoice - Financial document analysis
+
+research - Academic paper analysis
+
+📊 Example Output
+Text Output (Medical Report)
+text
+🩺 Comparative Analysis of Reports
+
+1. Patient Details
+
+Age: 45
+Gender: Male
+Patient Name: John Doe
+Report Date: 2024-01-15
+Lab: City Medical Laboratory
+
+2. Test Panels Performed
+
+- Complete Blood Count (CBC)
+- Liver Function Tests
+- Kidney Function Tests
+- Lipid Profile
+
+3. Key Results (Highlighted)
+CBC
+Hemoglobin: 14.2 g/dL
+White Blood Cells: 6.5 ×10³/μL
+Platelets: 250 ×10³/μL
+
+Liver & Kidney
+ALT: 25 U/L
+AST: 22 U/L
+Creatinine: 0.9 mg/dL
+
+4. Interpretations
+
+- Normal complete blood count results
+- Liver and kidney function within normal ranges
+- Lipid profile shows slightly elevated cholesterol
+
+✅ Similarity: Reports show consistent patient data and testing methodology
+JSON Output
+json
+{
+  "analysis_type": "medical",
+  "model_used": "llama2",
+  "text_length": 2450,
+  "patient_details": {
+    "Age": "45",
+    "Gender": "Male",
+    "Patient Name": "John Doe",
+    "Report Date": "2024-01-15",
+    "Lab": "City Medical Laboratory"
+  },
+  "test_panels": [
+    "Complete Blood Count (CBC)",
+    "Liver Function Tests",
+    "Kidney Function Tests",
+    "Lipid Profile"
+  ],
+  "key_results": {
+    "CBC": {
+      "Hemoglobin": "14.2 g/dL",
+      "White Blood Cells": "6.5 ×10³/μL",
+      "Platelets": "250 ×10³/μL"
+    },
+    "Liver & Kidney": {
+      "ALT": "25 U/L",
+      "AST": "22 U/L",
+      "Creatinine": "0.9 mg/dL"
+    }
+  },
+  "interpretations": [
+    "Normal complete blood count results",
+    "Liver and kidney function within normal ranges",
+    "Lipid profile shows slightly elevated cholesterol"
+  ],
+  "similarities": "Reports show consistent patient data and testing methodology"
+}
+Fallback Output (When AI Unavailable)
+
 ============================================================
-PDF ANALYSIS REPORT
+PDF ANALYSIS REPORT (MEDICAL ANALYSIS)
 ============================================================
-Document Type: Research Paper
+Document Type: Medical Laboratory Report - Comprehensive Health Checkup
 SUMMARY:
 ----------------------------------------
-This research paper discusses machine learning applications...
+Comprehensive medical laboratory report for a 30-year-old male patient from Dr. Lal PathLab. 
+The report includes complete blood count, liver & kidney function tests, lipid profile, 
+diabetes screening, thyroid profile, and vitamin levels (B12 and D).
+
 KEY INSIGHTS:
 ----------------------------------------
-1. Innovative approach to data processing
-2. Significant performance improvements
-3. Practical real-world applications
-```
-### JSON
-```json
-{
-  "document_type": "Research Paper",
-  "summary": "This research paper discusses...",
-  "key_insights": ["Insight 1", "Insight 2"],
-  "recommendations": ["Recommendation 1", "Recommendation 2"],
-  "confidence_score": 0.92
-}
-```
+1. **Complete Blood Count**: All parameters within normal ranges 
+   - Hemoglobin: 15.00 g/dL (Normal: 13.00-17.00)
+   - White Blood Cells: 8.00 thou/mm³ (Normal: 4.00-10.00)
+   - Platelets: 200 thou/mm³ (Normal: 150-410)
 
-## 🐞 Bug Fix Report (Blood Test Analyser)
-### tools.py
-- **Issues:** Missing python-dotenv, crewai-tools, outdated langchain.document_loaders, undefined PDFLoader.
-- **Fixes:** Installed dependencies, switched to langchain_community.document_loaders, defined PDFLoader.
+2. **Liver Function**: Excellent liver health
+   - ALT: 21.0 U/L (Normal: 10.00-49.00)
+   - AST: 11.0 U/L (Normal: 15.00-40.00) - slightly below normal
+   - Bilirubin Total: 0.20 mg/dL (Slightly below normal: 0.30-1.20)
 
-### task.py
-- **Issues:** Missing crewai.
-- **Fixes:** Installed crewai, fixed imports.
+3. **Kidney Function**: Optimal performance
+   - Creatinine: 0.90 mg/dL (Normal: 0.70-1.30)
+   - eGFR: 118 mL/min/1.73m² (Excellent: >59)
+   - GFR Category: G1 (Normal kidney function)
 
-### main.py
-- **Issues:** Missing fastapi, uvicorn, crewai. Naming inconsistencies (Analyser, Summarise).
-- **Fixes:** Installed dependencies, standardized names (Analyzer, Summarize).
+4. **Lipid Profile**: Generally good with minor elevation
+   - Total Cholesterol: 105.00 mg/dL (Excellent: <200)
+   - Triglycerides: 130.00 mg/dL (Slightly elevated: <150)
+   - HDL: 46.00 mg/dL (Good: >40)
+   - LDL: 33.00 mg/dL (Excellent: <100)
 
-### agents.py
-- **Issues:** Missing dotenv, crewai.agents, undefined llm.
-- **Fixes:** Installed dependencies, initialized llm = LLM(model="gpt-4-turbo").
+5. **Diabetes Screening**: Normal results
+   - HbA1c: 5.3% (Non-diabetic range: 4.0-5.6%)
+   - Fasting Glucose: 90.00 mg/dL (Normal: 70-100)
 
-### ✅ Summary
-- All missing deps added to requirements.txt.
-- Corrected imports and standardized names.
-- Properly initialized undefined variables.
-- Project now runs end-to-end without errors.
+6. **Thyroid Function**: Requires clinical correlation
+   - TSH: 4.00 μIU/mL (Normal: 0.550-4.780)
+   - T3 Total: 2.00 ng/mL (Elevated: Normal 0.60-1.81)
+   - T4 Total: 4.00 μg/dL (Low: Normal 5.01-12.45)
 
-## 🐛 Troubleshooting
-- **ModuleNotFoundError:** run `pip install -r requirements.txt`
-- **API Key Error:** check `.env`
-- **PDF Extraction Error:** try with simpler files
-- **Debug with:**
-  ```sh
-  python main.py document.pdf --verbose
-  ```
+7. **Vitamin Levels**: 
+   - Vitamin B12: 280.00 pg/mL (Normal: 211-911)
+   - Vitamin D: 85.00 nmol/L (Sufficient: 75-250)
 
-## 🤝 Contributing
-- Fork repo
-- Create branch
-- Commit changes
-- Push branch
-- Open PR
+CRITICAL FINDINGS:
+----------------------------------------
+1. **Thyroid Hormone Imbalance**: T3 elevated and T4 low - requires endocrinology consultation
+2. **Slightly Low Bilirubin**: May indicate mild liver function variation
+3. **Borderline Triglycerides**: Slightly above optimal range
 
-## 📈 Future Enhancements
-- Batch PDF analysis
-- Cloud storage integration
-- Web UI version
-- More document types
-- Custom templates
+RECOMMENDATIONS:
+----------------------------------------
+1. **Immediate Consultation**: Endocrinologist review for thyroid hormone imbalance
+2. **Dietary Modifications**: Reduce saturated fats to address elevated triglycerides
+3. **Liver Function Monitoring**: Repeat liver enzymes in 3 months
+4. **Thyroid Follow-up**: Complete thyroid panel with Free T3, Free T4, and antibodies
+5. **Lifestyle Maintenance**: Continue current healthy practices showing good metabolic markers
+6. **Vitamin Maintenance**: Current vitamin levels are adequate - maintain balanced nutrition
 
-## 🎯 Use Cases
-- Academic research analysis
-- Medical report summarization
-- Invoice/financial document analysis
-- Legal/technical document review
-- Business report insights
+PATIENT DETAILS:
+----------------------------------------
+- Name: DUMMY (Anonymized)
+- Age: 30 Years | Gender: Male
+- Lab Number: 439854467
+- Collection Date: May 14, 2023
+- Reporting Date: May 16, 2023
+- Laboratory: Dr. Lal PathLab, Rohini, Delhi
 
+DISCLAIMER:
+----------------------------------------
+This analysis is for informational purposes only and should not replace professional 
+medical advice, diagnosis, or treatment. All findings must be clinically correlated 
+by a qualified healthcare provider.
+
+Model: Medical Analysis Expert
+Text Processed: ~15,000 characters
+Report Pages: 10
+
+RECOMMENDATIONS:
+----------------------------------------
+1. Install Ollama for local LLM processing: https://ollama.ai/
+2. Or use a different API service with sufficient credits
+🚀 Key Features
+Dual AI Backend: Support for both local LLMs (Ollama) and cloud APIs (DeepSeek)
+
+Modular Architecture: Agent-task-tool design for easy extensibility
+
+Automated Processing: PDF extraction and AI analysis pipeline
+
+Domain-Specific Analysis: Specialized tasks for medical, financial, and academic documents
+
+Graceful Fallback: Continues operation even when AI services are unavailable
+
+Multiple Output Formats: JSON and human-readable text outputs
+
+🎯 Applications
+Healthcare: Medical test report extraction & summarization
+
+Finance: Invoice, audit, and statement analysis
+
+Education: Student performance report insights
+
+Research: Academic paper summarization and analysis
+
+Business Intelligence: Structured/semi-structured report processing
+
+📈 Future Enhancements
+OCR integration for scanned reports
+
+Natural language, user-friendly summaries
+
+Web-based user interface for report upload/analysis
+
+Support for more formats (CSV, DOCX, JSON)
+
+Batch processing & cloud storage integration
+
+Additional local LLM model support
+
+🐞 Troubleshooting
+Common Issues & Solutions
+ModuleNotFoundError: Run pip install -r requirements.txt
+
+Ollama Connection Error: Ensure Ollama is running: ollama serve
+
+API Key Error: Check environment variable setup
+
+PDF Extraction Error: Try simpler PDFs or check file permissions
+
+Debug Mode
+sh
+python main.py document.pdf --verbose
+Ollama Setup Help
+sh
+# Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Start Ollama service
+ollama serve
+
+# Pull a model (in separate terminal)
+ollama pull llama2
+📄 License
+MIT License – see LICENSE
+
+🤝 Contributing
+Fork the repository
+
+Create a feature branch: git checkout -b feature/amazing-feature
+
+Commit changes: git commit -m 'Add amazing feature'
+
+Push to branch: git push origin feature/amazing-feature
+
+Open a Pull Request
+
+🔄 Recent Updates
+Added Local LLM Support: Integrated Ollama for free, offline AI processing
+
+Dual AI Backend: Support for both cloud APIs and local models
+
+Improved Error Handling: Graceful fallback when AI services are unavailable
+
+Enhanced Medical Analysis: Better formatting for medical report output
+
+Simplified Setup: Reduced dependency requirements
+
+🆕 Quick Start
+sh
+# 1. Install Ollama (https://ollama.ai/)
+# 2. Pull a model
+ollama pull llama2
+
+# 3. Install Python dependencies
+pip install -r requirements.txt
+
+# 4. Analyze your first document!
+python main.py sample.pdf --task medical
+
+# To Run 
+python main.py "blood_test_report.pdf" --task medical --format text --verbose
+
+# In PowerShell, run:
+$env:OPENAI_API_KEY="sk-6a18d4f312d14e0da3f70a1d8179733"

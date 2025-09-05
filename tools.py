@@ -116,7 +116,7 @@ class TextCleaner:
             'extra_whitespace': re.compile(r'\s+'),
             'page_breaks': re.compile(r'\f'),
             'bullet_points': re.compile(r'^[•\-\*\+]\s*', re.MULTILINE),
-            'email': re.compile(r'\b[A-Za-z0.9._%+-]+@[A-Za-z0.9.-]+\.[A-Z|a-z]{2,}\b'),
+            'email': re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'),
             'phone': re.compile(r'\b(?:\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})\b'),
             'date': re.compile(r'\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b|\b\d{4}[/-]\d{1,2}[/-]\d{1,2}\b'),
             'currency': re.compile(r'\$[\d,]+\.?\d*|\b\d+\.?\d*\s*(?:USD|EUR|GBP|dollars?|euros?|pounds?)\b', re.IGNORECASE),
@@ -209,7 +209,7 @@ class TextCleaner:
             'sentence_count': len([s for s in sentences if s.strip()]),
             'paragraph_count': len([p for p in paragraphs if p.strip()]),
             'average_words_per_sentence': len(words) / max(len(sentences), 1),
-            'reading_time_minutes': len(words) / 200
+            'reading_time_minutes': len(words) / 200  # Assuming 200 words per minute
         }
     
     def extract_keywords(self, text: str, top_n: int = 10) -> List[str]:
@@ -223,6 +223,7 @@ class TextCleaner:
         Returns:
             List of potential keywords
         """
+        # Simple keyword extraction - in production, consider using libraries like NLTK or spaCy
         words = re.findall(r'\b[a-zA-Z]{3,}\b', text.lower())
         
         # Common stop words to filter out
