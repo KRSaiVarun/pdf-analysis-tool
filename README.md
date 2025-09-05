@@ -22,41 +22,42 @@ With initial use cases in medical reports and general PDF analysis, the framewor
 
 ## 🏗️ System Architecture
 ### Core Components
-- main.py – Entry point and CLI handler, orchestrates workflows.
-- agents.py – AI logic (text extraction, summarization, interpretation).
-- task.py – Defines analysis task configurations and management.
-- tools.py – Utilities for PDF parsing, text cleaning, and helper functions.
-- data/ – Sample reports (e.g., blood_test_report.pdf, sample.pdf).
-- pyproject.toml / requirements.txt – Dependencies and project configuration.
+- **main.py** – Entry point and CLI handler, orchestrates workflows.
+- **agents.py** – AI logic (text extraction, summarization, interpretation).
+- **task.py** – Defines analysis task configurations and management.
+- **tools.py** – Utilities for PDF parsing, text cleaning, and helper functions.
+- **data/** – Sample reports (e.g., blood_test_report.pdf, sample.pdf).
+- **pyproject.toml** / **requirements.txt** – Dependencies and project configuration.
 
 ### Design Patterns
-- Factory Pattern – TaskManager creates analysis tasks.
-- Strategy Pattern – Different strategies for agents per task type.
-- Error Handling – Robust handling of PDF parsing and runtime issues.
-- Fallback Mechanism – Graceful degradation when AI services are unavailable.
+- **Factory Pattern** – TaskManager creates analysis tasks.
+- **Strategy Pattern** – Different strategies for agents per task type.
+- **Error Handling** – Robust handling of PDF parsing and runtime issues.
+- **Fallback Mechanism** – Graceful degradation when AI services are unavailable.
 
 ### Processing Layers
-- PDF Processing – Powered by pdfplumber with error handling and page-wise cleanup.
-- AI Analysis Engine – Supports both cloud APIs (DeepSeek) and local LLMs (Ollama).
-- Task Management – Supports different analysis pipelines (medical, invoice, research, etc.).
-- Text Pipeline – Normalization, whitespace cleanup, and formatting.
-- CLI Interface – Built with argparse, supports JSON/text outputs, verbose mode, and task selection.
+- **PDF Processing** – Powered by pdfplumber with error handling and page-wise cleanup.
+- **AI Analysis Engine** – Supports both cloud APIs (DeepSeek) and local LLMs (Ollama).
+- **Task Management** – Supports different analysis pipelines (medical, invoice, research, etc.).
+- **Text Pipeline** – Normalization, whitespace cleanup, and formatting.
+- **CLI Interface** – Built with argparse, supports JSON/text outputs, verbose mode, and task selection.
 
 ---
 
 ## 📦 Installation & Requirements
 
 ### Option 1: Local LLM (Recommended - Free)
-```sh
+```bash
 # Install Ollama for local AI processing
 # Download from: https://ollama.ai/
+
 # Then pull a model:
 ollama pull llama2
 
 # Install Python dependencies
 pip install -r requirements.txt
 Option 2: Cloud API (DeepSeek)
-sh
+bash
 # Install Python dependencies
 pip install -r requirements.txt
 
@@ -72,7 +73,7 @@ For local AI: Ollama installed and running
 For cloud AI: DeepSeek API account & key
 
 Setup
-sh
+bash
 git clone https://github.com/KRSaiVarun/pdf-analysis-tool
 cd pdf-analysis-tool
 pip install -r requirements.txt
@@ -85,7 +86,7 @@ python-dotenv>=1.0.0
 
 📝 Usage
 Basic Usage
-sh
+bash
 # Analyze with default settings
 python main.py document.pdf
 
@@ -95,7 +96,7 @@ python main.py document.pdf --task medical
 # Force cloud API (if available)
 python main.py document.pdf --use-cloud
 Advanced Options
-sh
+bash
 # Specific task analysis
 python main.py document.pdf --task medical
 python main.py document.pdf --task invoice
@@ -121,83 +122,8 @@ invoice - Financial document analysis
 
 research - Academic paper analysis
 
-📊 Example Output
-Text Output (Medical Report)
-text
-🩺 Comparative Analysis of Reports
-
-1. Patient Details
-
-Age: 45
-Gender: Male
-Patient Name: John Doe
-Report Date: 2024-01-15
-Lab: City Medical Laboratory
-
-2. Test Panels Performed
-
-- Complete Blood Count (CBC)
-- Liver Function Tests
-- Kidney Function Tests
-- Lipid Profile
-
-3. Key Results (Highlighted)
-CBC
-Hemoglobin: 14.2 g/dL
-White Blood Cells: 6.5 ×10³/μL
-Platelets: 250 ×10³/μL
-
-Liver & Kidney
-ALT: 25 U/L
-AST: 22 U/L
-Creatinine: 0.9 mg/dL
-
-4. Interpretations
-
-- Normal complete blood count results
-- Liver and kidney function within normal ranges
-- Lipid profile shows slightly elevated cholesterol
-
-✅ Similarity: Reports show consistent patient data and testing methodology
-JSON Output
-json
-{
-  "analysis_type": "medical",
-  "model_used": "llama2",
-  "text_length": 2450,
-  "patient_details": {
-    "Age": "45",
-    "Gender": "Male",
-    "Patient Name": "John Doe",
-    "Report Date": "2024-01-15",
-    "Lab": "City Medical Laboratory"
-  },
-  "test_panels": [
-    "Complete Blood Count (CBC)",
-    "Liver Function Tests",
-    "Kidney Function Tests",
-    "Lipid Profile"
-  ],
-  "key_results": {
-    "CBC": {
-      "Hemoglobin": "14.2 g/dL",
-      "White Blood Cells": "6.5 ×10³/μL",
-      "Platelets": "250 ×10³/μL"
-    },
-    "Liver & Kidney": {
-      "ALT": "25 U/L",
-      "AST": "22 U/L",
-      "Creatinine": "0.9 mg/dL"
-    }
-  },
-  "interpretations": [
-    "Normal complete blood count results",
-    "Liver and kidney function within normal ranges",
-    "Lipid profile shows slightly elevated cholesterol"
-  ],
-  "similarities": "Reports show consistent patient data and testing methodology"
-}
-Fallback Output (When AI Unavailable)
+📊  Output
+Medical Report Analysis Output
 
 ============================================================
 PDF ANALYSIS REPORT (MEDICAL ANALYSIS)
@@ -278,11 +204,6 @@ by a qualified healthcare provider.
 Model: Medical Analysis Expert
 Text Processed: ~15,000 characters
 Report Pages: 10
-
-RECOMMENDATIONS:
-----------------------------------------
-1. Install Ollama for local LLM processing: https://ollama.ai/
-2. Or use a different API service with sufficient credits
 🚀 Key Features
 Dual AI Backend: Support for both local LLMs (Ollama) and cloud APIs (DeepSeek)
 
@@ -331,10 +252,10 @@ API Key Error: Check environment variable setup
 PDF Extraction Error: Try simpler PDFs or check file permissions
 
 Debug Mode
-sh
+bash
 python main.py document.pdf --verbose
 Ollama Setup Help
-sh
+bash
 # Install Ollama
 curl -fsSL https://ollama.ai/install.sh | sh
 
@@ -369,7 +290,7 @@ Enhanced Medical Analysis: Better formatting for medical report output
 Simplified Setup: Reduced dependency requirements
 
 🆕 Quick Start
-sh
+bash
 # 1. Install Ollama (https://ollama.ai/)
 # 2. Pull a model
 ollama pull llama2
@@ -380,8 +301,8 @@ pip install -r requirements.txt
 # 4. Analyze your first document!
 python main.py sample.pdf --task medical
 
-# To Run 
+# To Run with specific medical report
 python main.py "blood_test_report.pdf" --task medical --format text --verbose
 
-# In PowerShell, run:
-$env:DEEPSEEK_API_KEY="sk-6a18d4f312d14e0da3f70a1d8179733"
+# In PowerShell, set API key (if using cloud):
+$env:DEEPSEEK_API_KEY="sk-6a18d4f312d14e0da3f70a1d81797335"
