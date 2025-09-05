@@ -384,4 +384,4 @@ python main.py sample.pdf --task medical
 python main.py "blood_test_report.pdf" --task medical --format text --verbose
 
 # In PowerShell, run:
-$env:OPENAI_API_KEY="sk-6a18d4f312d14e0da3f70a1d8179733"
+$env:DEEPSEEK_API_KEY="sk-6a18d4f312d14e0da3f70a1d8179733"
