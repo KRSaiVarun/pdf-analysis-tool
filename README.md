@@ -86,7 +86,7 @@ python main.py document.pdf --verbose
 - research
 
 ## 📊 Output Examples
-### Text
+
 ```
 ============================================================
 PDF ANALYSIS REPORT
