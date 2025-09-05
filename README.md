@@ -268,12 +268,13 @@ ollama serve
 
 # Pull a model (in separate terminal)
 ollama pull llama2
+```
 📄 License
 ```
 MIT License – see LICENSE
 ```
-
 🤝 Contributing
+```
 Fork the repository
 
 Create a feature branch: git checkout -b feature/amazing-feature
