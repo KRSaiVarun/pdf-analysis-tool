@@ -217,8 +217,9 @@ Domain-Specific Analysis: Specialized tasks for medical, financial, and academic
 Graceful Fallback: Continues operation even when AI services are unavailable
 
 Multiple Output Formats: JSON and human-readable text outputs
-
+```
 🎯 Applications
+```
 Healthcare: Medical test report extraction & summarization
 
 Finance: Invoice, audit, and statement analysis
@@ -228,8 +229,9 @@ Education: Student performance report insights
 Research: Academic paper summarization and analysis
 
 Business Intelligence: Structured/semi-structured report processing
-
+```
 📈 Future Enhancements
+```
 OCR integration for scanned reports
 
 Natural language, user-friendly summaries
@@ -241,8 +243,9 @@ Support for more formats (CSV, DOCX, JSON)
 Batch processing & cloud storage integration
 
 Additional local LLM model support
-
+```
 🐞 Troubleshooting
+```
 Common Issues & Solutions
 ModuleNotFoundError: Run pip install -r requirements.txt
 
@@ -266,7 +269,9 @@ ollama serve
 # Pull a model (in separate terminal)
 ollama pull llama2
 📄 License
+```
 MIT License – see LICENSE
+```
 
 🤝 Contributing
 Fork the repository
@@ -278,8 +283,10 @@ Commit changes: git commit -m 'Add amazing feature'
 Push to branch: git push origin feature/amazing-feature
 
 Open a Pull Request
+```
 
 🔄 Recent Updates
+```
 Added Local LLM Support: Integrated Ollama for free, offline AI processing
 
 Dual AI Backend: Support for both cloud APIs and local models
@@ -289,8 +296,9 @@ Improved Error Handling: Graceful fallback when AI services are unavailable
 Enhanced Medical Analysis: Better formatting for medical report output
 
 Simplified Setup: Reduced dependency requirements
-
+```
 🆕 Quick Start
+```
 bash
 # 1. Install Ollama (https://ollama.ai/)
 # 2. Pull a model
